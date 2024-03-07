@@ -2,7 +2,7 @@ import { useState } from "react";
 import Swal from "sweetalert2";
 
 function useData() {
- const [newDataSaved, setNewDataSaved] = useState(false);
+//  const [newDataSaved, setNewDataSaved] = useState(false);
 
   const saveDataToApi = async (data) => {
     try {
@@ -21,20 +21,19 @@ function useData() {
           
         }
 
-        setNewDataSaved(true);
-        localStorage.setItem('newDataSaved', true); 
+        // setNewDataSaved(true);
+        // localStorage.setItem('newDataSaved', true); 
      
       } catch (error) {
         // console.error('Error submitting task:', error.message);
-        // alert('Failed to submit task. Please try again later.');
+         Swal.fire('Failed to submit task. Please try again later.');
       }
       
       
   };
  
   return {
-    newDataSaved,
-    saveDataToApi,
+    saveDataToApi
   };
 }
 

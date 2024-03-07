@@ -43,7 +43,7 @@ const Todolist = () => {
   const handleSubmit = async () => {
     try {
       const userId = localStorage.getItem('userId');
-      const response = await fetch(`https://task-list-db.onrender.com/${selectedTask.id}`, {
+      const response = await fetch(`https://task-list-db.onrender.com/api/v1/tasklist/${selectedTask.id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -118,7 +118,7 @@ const Todolist = () => {
   
     try {
       // Send a PATCH request to update the completed attribute of the item in the database
-      await fetch(`https://task-list-db.onrender.com/${item.id}`, {
+      await fetch(`https://task-list-db.onrender.com/api/v1/tasklist/${item.id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -171,7 +171,7 @@ const Todolist = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const response = await fetch(`https://task-list-db.onrender.com/${index.id}`, {
+          const response = await fetch(`https://task-list-db.onrender.com/api/v1/tasklist/${index.id}`, {
             method: 'DELETE'
           });
     
@@ -433,8 +433,8 @@ useEffect(() => {
              </div>
          <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
             {item.attributes.end_date === getCurrentDate() ? (
-            <img src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExaG1rdDFsaGExeXJrZ3Z1cmF1Z25hNmN4cGVnZXc5YWY2cmlhM3RyNSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/C1vogr3ZrH3nmfaADy/giphy.gif" alt="ringing bell" width="50" height="50"/>
-  
+            // <img src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExaG1rdDFsaGExeXJrZ3Z1cmF1Z25hNmN4cGVnZXc5YWY2cmlhM3RyNSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/C1vogr3ZrH3nmfaADy/giphy.gif" alt="ringing bell" width="50" height="50"/>
+              <span></span>
         ) : (
           <span></span>
           )}

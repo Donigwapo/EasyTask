@@ -35,7 +35,7 @@ function Createtask() {
   const userId = Number(localStorage.getItem('userId'));
   const [show_Reg_Form, set_show_Reg_Form] = useState(false);
   const { isLoggedIn } = useContext(AuthContext);
-  const { saveDataToApi, newDataSavedRef } = useData();
+  const { saveDataToApi } = useData();
   const [textFieldButtonAction, setTextFieldButtonAction] = useState('');
 
  
