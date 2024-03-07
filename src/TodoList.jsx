@@ -43,7 +43,7 @@ const Todolist = () => {
   const handleSubmit = async () => {
     try {
       const userId = localStorage.getItem('userId');
-      const response = await fetch(`http://localhost:3000/api/v1/tasklist/${selectedTask.id}`, {
+      const response = await fetch(`https://task-list-db.onrender.com/${selectedTask.id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -75,14 +75,14 @@ const Todolist = () => {
 
 
   useEffect(() => {
-    
-    storedDataSaved && populateLeftSideList();
-   
-  }, [storedDataSaved]);
+    if (storedData.length === 0){
+  populateLeftSideList();
+    }
+  }, [storedData]);
   
   const populateLeftSideList = async () => {
     try {
-      const response = await fetch('http://localhost:3000/api/v1/tasklist');
+      const response = await fetch('https://task-list-db.onrender.com/api/v1/tasklist');
       const responseData = await response.json();
       if (Array.isArray(responseData.data)) {
        
@@ -118,7 +118,7 @@ const Todolist = () => {
   
     try {
       // Send a PATCH request to update the completed attribute of the item in the database
-      await fetch(`http://localhost:3000/api/v1/tasklist/${item.id}`, {
+      await fetch(`https://task-list-db.onrender.com/${item.id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -135,42 +135,6 @@ const Todolist = () => {
 
 
  
-  const handleUpdate = (item) => {
-    const maxTitleLength = 20;
-    const truncatedTitle = (item.attributes.taskname.length > maxTitleLength
-      ? item.attributes.taskname.slice(0, maxTitleLength) + '...'
-      : item.attributes.taskname);
-
-    // Open a modal for editing task details
-    Swal.fire({
-      title: `Edit Task: ${truncatedTitle}`,
-      html: `
-        <input id="editTaskName" class="swal2-input" type="text" placeholder="Task Name" value="${item.attributes.taskname}">
-        <input id="editTaskDescription"  class="swal2-input" placeholder="Task Description"value="${item.attributes.taskdescription}">
-      `,
-      showCancelButton: true,
-      confirmButtonText: 'Save Changes',
-      cancelButtonText: 'Cancel',
-      focusConfirm: false,
-      preConfirm: () => {
-        // Retrieve edited task name and description from the modal
-        const editedName = document.getElementById('editTaskName').value;
-        const editedDescription = document.getElementById('editTaskDescription').value;
-        // Update the task details
-        setEditedTask({ taskname: editedName, taskdescription: editedDescription });
-      }
-    }).then((result) => {
-      if (result.isConfirmed) {
-        // Handle saving changes
-        // You can send an API request to update the task details here
-        console.log('Task name:', editedTask.taskname);
-        console.log('Task description:', editedTask.taskdescription);
-        // Optionally, you can update the UI to reflect the changes
-      } else {
-        // Handle cancel action
-      }
-    });
-  };
 
   const handleDetails = (item) => {
     const maxTitleLength = 20;
@@ -207,7 +171,7 @@ const Todolist = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const response = await fetch(`http://localhost:3000/api/v1/tasklist/${index.id}`, {
+          const response = await fetch(`https://task-list-db.onrender.com/${index.id}`, {
             method: 'DELETE'
           });
     
@@ -262,7 +226,7 @@ const Todolist = () => {
 
 const completed = async() => {
   try {
-    const response = await fetch('http://localhost:3000/api/v1/tasklist');
+    const response = await fetch('https://task-list-db.onrender.com/api/v1/tasklist');
     const responseData = await response.json();
     if (Array.isArray(responseData.data)) {
      // console.log('Tasks from API:', responseData.data);
@@ -300,7 +264,7 @@ const completed = async() => {
 
 const todays_task = async () => {
   try {
-    const response = await fetch('http://localhost:3000/api/v1/tasklist');
+    const response = await fetch('https://task-list-db.onrender.com/api/v1/tasklist');
     const responseData = await response.json();
     if (Array.isArray(responseData.data)) {
      // console.log('Tasks from API:', responseData.data);
@@ -337,7 +301,7 @@ const todays_task = async () => {
 
 const total_category = async () => {
   try {
-    const response = await fetch('http://localhost:3000/api/v1/category');
+    const response = await fetch('https://task-list-db.onrender.com/api/v1/category');
     const responseData = await response.json();
     if (Array.isArray(responseData.data)) {
     //  console.log('Tasks from API:', responseData.data);
@@ -359,7 +323,7 @@ const total_category = async () => {
 const show_task_from_cat = async(textToCopy) =>{
  const category_id = Number(textToCopy);
   try {
-    const response = await fetch('http://localhost:3000/api/v1/tasklist');
+    const response = await fetch('https://task-list-db.onrender.com/api/v1/tasklist');
     const responseData = await response.json();
     if (Array.isArray(responseData.data)) {   
 

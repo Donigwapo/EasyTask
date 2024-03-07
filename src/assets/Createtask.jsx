@@ -41,7 +41,7 @@ function Createtask() {
  
   const proceed_to_update_category = async () =>{
     try {
-      const response = await fetch(`http://localhost:3000/api/v1/category/${selectedCategoryId}`, {
+      const response = await fetch(`https://task-list-db.onrender.com/api/v1/category/${selectedCategoryId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -66,7 +66,7 @@ function Createtask() {
 
     const userId = localStorage.getItem('userId');
 
-    const response = await fetch('http://localhost:3000/api/v1/category/', {
+    const response = await fetch('https://task-list-db.onrender.com/api/v1/category', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -78,7 +78,7 @@ function Createtask() {
 
   const populateCategory = async () => {
     try {
-      const response = await fetch('http://localhost:3000/api/v1/category');
+      const response = await fetch('https://task-list-db.onrender.com/api/v1/category');
       const responseData = await response.json();
       if (Array.isArray(responseData.data)) {
         console.log('Tasks from API:', responseData.data);
@@ -179,7 +179,7 @@ function Createtask() {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const response = await fetch(`http://localhost:3000/api/v1/category/${selectedCategoryId}`, {
+          const response = await fetch(`https://task-list-db.onrender.com/api/v1/category/${selectedCategoryId}`, {
             method: 'DELETE'
           });
 
