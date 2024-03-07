@@ -97,12 +97,14 @@ function TaskDialog({
                value={handleValueChange()}
                onChange={handleTaskNameChange}
                style={{ marginBottom: 16, width: 300 }}
+               required 
              />
              <TextField
                label="Task Name"
                value={taskname}
                onChange={(e) => setTaskname(e.target.value)}
                style={{ marginBottom: 16, width: 300, display:'none' }}
+               
              />
 
               <TextField
@@ -110,6 +112,7 @@ function TaskDialog({
                 value={taskdescription}
                 onChange={(e) => setTaskdescription(e.target.value)}
                style={{ marginBottom: 16, width: 300, display:'none' }}
+               
              />
            
 
@@ -118,6 +121,7 @@ function TaskDialog({
                 value={handleValueChangeForDescription()}
                onChange={handleDescriptionChange}
                style={{ marginBottom: 16, width: 300 }}
+               required 
              />
 
             
@@ -134,6 +138,7 @@ function TaskDialog({
                   locale: 'en-SG',
                   timezone: 'Asia/Singapore'
                 }}
+                required 
               />
             )}
           />
@@ -144,6 +149,7 @@ function TaskDialog({
           label="Category"
           value={selectedCategory}
           onChange={(e) => setSelectedCategory(e.target.value)}
+          required 
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">

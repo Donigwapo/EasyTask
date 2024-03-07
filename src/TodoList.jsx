@@ -75,10 +75,10 @@ const Todolist = () => {
 
 
   useEffect(() => {
-    if (storedData.length === 0){
-  populateLeftSideList();
+    if (isLoggedIn && storedData.length === 0){
+    populateLeftSideList();
     }
-  },[storedData] );
+  },);
   
   const populateLeftSideList = async () => {
     try {
@@ -223,6 +223,15 @@ const Todolist = () => {
     return `${year}-${month}-${day}`;
   }
 
+  function DateDifference({ endDate }) {
+    const currentDate = new Date();
+    const endDateTime = new Date(endDate);
+    const timeDiff = endDateTime.getTime() - currentDate.getTime();
+    const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
+  
+    return <marquee><span>{daysDiff} days overdue!</span></marquee>;
+  }
+
   console.log(getCurrentDate());
 
 const completed = async() => {
@@ -313,11 +322,11 @@ const total_category = async () => {
       
     } else {
       console.error('Invalid response from API:', responseData);
-      alert('Failed to fetch tasks. Please try again later.');
+    //  alert('Failed to fetch tasks. Please try again later.');
     }
   } catch (error) {
     console.error('Error fetching tasks:', error.message);
-    alert('Failed to fetch tasks. Please try again later.');
+   // alert('Failed to fetch tasks. Please try again later.');
   }
 }
 
@@ -387,6 +396,23 @@ useEffect(() => {
   }
 }, [userId]);
 
+const handleAlert = (item) => {
+  const taskName = item.attributes.taskname.props.children; // Accessing the task name from props.children
+  const isPastDeadline = new Date(item.attributes.end_date) > new Date(getCurrentDate());
+  const deadlineStatus = isPastDeadline ? 'Upcoming' : 'Done';
+
+  Swal.fire({
+    title: 'Task Details',
+    html: `
+      <p>Task Name: ${taskName}</p>
+      <p>Description: ${item.attributes.taskdescription}</p>
+      <p>Deadline: ${formatDate(item.attributes.end_date)}</p>
+      <p>Task Status: ${deadlineStatus}</p>
+    `,
+    icon: 'info',
+    confirmButtonText: 'OK'
+  });
+};
   return (
     
     <div>
@@ -437,12 +463,17 @@ useEffect(() => {
             <img src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExaG1rdDFsaGExeXJrZ3Z1cmF1Z25hNmN4cGVnZXc5YWY2cmlhM3RyNSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/C1vogr3ZrH3nmfaADy/giphy.gif" alt="ringing bell" width="50" height="50"/>
             
         ) : (
-          <span></span>
+          <span></span>  
+          )}
+           {item.attributes.end_date < getCurrentDate() ? (
+            <DateDifference endDate={item.attributes.end_date} />
+        ) : (
+            <span></span>
           )}
               {!item.isCompleted ? (
             <button className="details-button" onClick={() => handleOpenDialog(item.id)}>Update</button>
           ) : (
-            <button className="details-button" onClick={() => handleUpdate(item)}>Details</button>
+            <button className="details-button" onClick={() => handleAlert(item)}>Details</button>
           )}
               <span className="date-span">Deadline:{formatDate(item.attributes.end_date)}</span>
               

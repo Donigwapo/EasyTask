@@ -123,6 +123,8 @@ function Createtask() {
     setOpen(false);
   };
 
+ 
+
   function notLoggedIn(){
     Swal.fire({
       title: "You are not logged in",
@@ -134,8 +136,16 @@ function Createtask() {
   
     }).then((result) => {
       if (result.isConfirmed) {
-     set_show_Reg_Form(true);
-
+        set_show_Reg_Form((prevState) => {
+          const newState = !prevState;
+          console.log("show_Reg_Form:", newState); // Log the new state
+          setTimeout(() => {
+            // Revert show_Reg_Form back to its previous state after 1 second
+            set_show_Reg_Form(prevState);
+          }, 1000);
+          return newState;
+        });
+    
       }
     },);
     
@@ -210,7 +220,7 @@ function Createtask() {
   return (
     <>
     
-    {show_Reg_Form && <Register/>}
+    {show_Reg_Form && <Register />}
 
     <FloatingActionButton handleOpenDialog={handleOpenDialog} notLoggedIn={notLoggedIn} />
    
