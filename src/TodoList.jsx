@@ -78,7 +78,7 @@ const Todolist = () => {
     if (storedData.length === 0){
   populateLeftSideList();
     }
-  }, [storedData]);
+  },[storedData] );
   
   const populateLeftSideList = async () => {
     try {
@@ -101,6 +101,7 @@ const Todolist = () => {
         });
   
         setStoredData(modifiedData);
+        console.log('Tasks from API:', modifiedData);
        
       } else {
         console.error('Invalid response from API:', responseData);
@@ -433,8 +434,8 @@ useEffect(() => {
              </div>
          <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
             {item.attributes.end_date === getCurrentDate() ? (
-            // <img src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExaG1rdDFsaGExeXJrZ3Z1cmF1Z25hNmN4cGVnZXc5YWY2cmlhM3RyNSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/C1vogr3ZrH3nmfaADy/giphy.gif" alt="ringing bell" width="50" height="50"/>
-              <span></span>
+            <img src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExaG1rdDFsaGExeXJrZ3Z1cmF1Z25hNmN4cGVnZXc5YWY2cmlhM3RyNSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/C1vogr3ZrH3nmfaADy/giphy.gif" alt="ringing bell" width="50" height="50"/>
+            
         ) : (
           <span></span>
           )}

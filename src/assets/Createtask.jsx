@@ -81,7 +81,7 @@ function Createtask() {
       const response = await fetch('https://task-list-db.onrender.com/api/v1/category');
       const responseData = await response.json();
       if (Array.isArray(responseData.data)) {
-        console.log('Tasks from API:', responseData.data);
+       // console.log('Tasks from API:', responseData.data);
 
         const filteredData = responseData.data.filter(item => item.attributes.user_id === userId);
 
