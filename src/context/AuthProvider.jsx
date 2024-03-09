@@ -26,7 +26,7 @@ const AuthProvider = ({ children }) => {
         setIsLoggedIn(true);
         localStorage.setItem('isLoggedIn', 'true');
         localStorage.setItem('userId', data.user.id);
-        window.location.reload();
+      //  window.location.reload();
         
       } else {
         console.error('Error:', response.statusText);

@@ -1,12 +1,13 @@
-// Login.js
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import AuthContext from './context/AuthContext';
 import Swal from 'sweetalert2';
 
 const Login = () => {
   const { isLoggedIn, loginWithFormValues, logout } = useContext(AuthContext);
+  const [isLoading, setIsLoading] = useState(false); // State for loading indicator
 
   const handleLogin = async () => {
+    setIsLoading(true); // Set loading state to true when login process starts
     const { value: formValues } = await Swal.fire({
       title: 'Login',
       html: `
@@ -23,27 +24,27 @@ const Login = () => {
         return { email, password };
       }
     });
-    
+
     if (formValues) {
       const { email, password } = formValues;
-      loginWithFormValues(email, password);
+      // Set loading state to false after the login process is complete
+      loginWithFormValues(email, password)
+        .then(() => setIsLoading(false))
+        .catch(() => setIsLoading(false));
+    } else {
+      setIsLoading(false); // Set loading state to false if login form is cancelled
     }
   };
 
-
-  // useEffect(() => {
-  //   if (!isLoggedIn) {
-  //     handleLogin();
-  //   }
-  // }, [isLoggedIn]);
   return (
     <>
       <div className="top_right">
         {isLoggedIn ? (
           <button onClick={logout}>Logout</button>
         ) : (
-          
-          <button onClick={handleLogin}>Login</button>
+          <button onClick={handleLogin} disabled={isLoading}>
+            {isLoading ? 'Logging in...' : 'Login'}
+          </button>
         )}
       </div>
     </>

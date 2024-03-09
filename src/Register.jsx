@@ -2,9 +2,6 @@ import React, { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
 
 function Register() {
-  // const [email, setEmail] = useState('');
-  // const [password, setPassword] = useState('');
-  // const [passwordConfirmation, setPasswordConfirmation] = useState('');
 
   useEffect(() => {
     Swal.fire({
@@ -52,7 +49,7 @@ function Register() {
           }
 
           const responseData = await response.json();
-          
+
           Swal.fire('Success!', responseData.message, 'success');
         } catch (error) {
           Swal.fire('Error!', error.message, 'error');

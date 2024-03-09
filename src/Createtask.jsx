@@ -1,26 +1,11 @@
 import { useState, useContext, useEffect } from 'react';
-import Dialog from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
-import DialogContent from '@mui/material/DialogContent';
-import DialogActions from '@mui/material/DialogActions';
-import TextField from '@mui/material/TextField';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import Button from '@mui/material/Button';
-import { InputAdornment, selectClasses } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
-import IconButton from '@mui/material/IconButton';
-import Box from '@mui/material/Box';
-import Fab from '@mui/material/Fab';
-import AddIcon from '@mui/icons-material/Add';
-import AuthContext from '../context/AuthContext';
+import AuthContext from './context/AuthContext';
 import Swal from 'sweetalert2';
 import { Grid } from '@mui/material';
-import Register from '../Register';
-import  useData from '../context/useData';
-import FloatingActionButton from '../context/FloatingActionButton';
-import TaskDialog from '../context/TaskDialog';
+import Register from './Register';
+import useData from './context/useData';
+import FloatingActionButton from './context/FloatingActionButton';
+import TaskDialog from './context/TaskDialog';
 
 
 function Createtask() {
@@ -38,8 +23,8 @@ function Createtask() {
   const { saveDataToApi } = useData();
   const [textFieldButtonAction, setTextFieldButtonAction] = useState('');
 
- 
-  const proceed_to_update_category = async () =>{
+
+  const proceed_to_update_category = async () => {
     try {
       const response = await fetch(`https://task-list-db.onrender.com/api/v1/category/${selectedCategoryId}`, {
         method: 'PUT',
@@ -48,7 +33,7 @@ function Createtask() {
         },
         body: JSON.stringify({ name: selectedCategory }),
       });
-  
+
       if (!response.ok) {
         throw new Error('Failed to update category');
       }
@@ -66,7 +51,7 @@ function Createtask() {
 
     const userId = localStorage.getItem('userId');
 
-    const response = await fetch('https://task-list-db.onrender.com/api/v1/category', {
+     await fetch('https://task-list-db.onrender.com/api/v1/category', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -81,7 +66,7 @@ function Createtask() {
       const response = await fetch('https://task-list-db.onrender.com/api/v1/category');
       const responseData = await response.json();
       if (Array.isArray(responseData.data)) {
-       // console.log('Tasks from API:', responseData.data);
+        // console.log('Tasks from API:', responseData.data);
 
         const filteredData = responseData.data.filter(item => item.attributes.user_id === userId);
 
@@ -95,20 +80,20 @@ function Createtask() {
       alert('Failed to fetch tasks. Please try again later.');
     }
   };
-  
-  const proceed_to_create_category = async () =>{
+
+  const proceed_to_create_category = async () => {
     const isCategoryUnique = !category.some(category => category.attributes.name === selectedCategory);
-  
+
     if (isCategoryUnique) {
-     await create_new_category();
-  
-     await populateCategory();
-  
+      await create_new_category();
+
+      await populateCategory();
+
     }
   }
 
- 
-  
+
+
 
   const handleOpenDialog = () => {
     setOpen(true);
@@ -117,23 +102,23 @@ function Createtask() {
   const handleCloseDialog = () => {
     setSelectedCategory("");
     setTaskdescription("");
-   // setSelectedDate("");
+    // setSelectedDate("");
     setTaskname("");
     setTextFieldButtonName("Create")
     setOpen(false);
   };
 
- 
 
-  function notLoggedIn(){
+
+  function notLoggedIn() {
     Swal.fire({
       title: "You are not logged in",
       text: "If you have not registered yet, please click the register button below",
       icon: "info",
       showCancelButton: false,
       confirmButtonText: "Register",
-      
-  
+
+
     }).then((result) => {
       if (result.isConfirmed) {
         set_show_Reg_Form((prevState) => {
@@ -145,38 +130,38 @@ function Createtask() {
           }, 1000);
           return newState;
         });
-    
+
       }
     },);
-    
+
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      await saveDataToApi({ taskname, taskdescription, category_id:selectedCategoryId, end_date:selectedDate });
+      await saveDataToApi({ taskname, taskdescription, category_id: selectedCategoryId, end_date: selectedDate });
       handleCloseDialog();
-     // window.location.reload();
+      // window.location.reload();
     } catch (error) {
-     console.error('Error saving data:', error.message);
-     Swal.alert('Failed to save data. Please try again later.');
+      console.error('Error saving data:', error.message);
+      Swal.alert('Failed to save data. Please try again later.');
     }
   };
 
- 
+
 
   useEffect(() => {
     populateCategory();
   }, []);
-  
+
   const handleClickCategory = (categoryName, categoryId) => {
     setSelectedCategory(categoryName);
     setSelectedCategoryId(categoryId);
-  
+
   };
 
-  const delete_category = async () =>{
+  const delete_category = async () => {
     setOpen(false);
     Swal.fire({
       title: 'Confirm Deletion',
@@ -194,12 +179,12 @@ function Createtask() {
           });
 
           await populateCategory();
-    
+
           if (!response.ok) {
             throw new Error('Failed to delete the category');
           }
-        //  populateLeftSideList();
-      //    setCategory(category.filter((t) => t.id !== index.id));
+          //  populateLeftSideList();
+          //    setCategory(category.filter((t) => t.id !== index.id));
         } catch (error) {
           console.error('Error deleting category:', error.message);
           alert('Failed to delete category. Please try again later.');
@@ -216,15 +201,15 @@ function Createtask() {
     });
   }
 
-  
+
   return (
     <>
-    
-    {show_Reg_Form && <Register />}
 
-    <FloatingActionButton handleOpenDialog={handleOpenDialog} notLoggedIn={notLoggedIn} />
-   
-    <TaskDialog
+      {show_Reg_Form && <Register />}
+
+      <FloatingActionButton handleOpenDialog={handleOpenDialog} notLoggedIn={notLoggedIn} />
+
+      <TaskDialog
         open={open}
         handleCloseDialog={handleCloseDialog}
         taskname={taskname}
@@ -244,7 +229,7 @@ function Createtask() {
         handleClickCategory={handleClickCategory}
         deleteCategory={delete_category}
       />
-      
+
     </>
   );
 }
